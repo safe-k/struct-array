@@ -1,0 +1,42 @@
+{
+  "name": "safe-k/struct-array",
+  "type": "library",
+  "description": "Array structure validation",
+  "keywords": [
+    "data",
+    "array",
+    "structure",
+    "validation",
+    "dto",
+    "ddd"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Seif Kamal",
+      "email": "seifskm@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "SK\\StructArray\\": "src"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SK\\StructArray\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit tests"
+  }
+}
