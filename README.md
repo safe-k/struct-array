@@ -1,3 +1,4 @@
+![](https://github.com/safe-k/struct-array/workflows/Test/badge.svg)
 ![GitHub license](https://img.shields.io/github/license/safe-k/struct-array)
 
 # PHP Structured Arrays
