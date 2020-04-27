@@ -21,8 +21,11 @@ class Struct
      * to `true`; Set to `false` if you only want to validate some of the array elements.
      * @return Struct
      */
-    public static function of(string $name, array $interface, bool $exhaustive = true): self
-    {
+    public static function of(
+        string $name,
+        array $interface,
+        bool $exhaustive = true
+    ): self {
         $struct = new static;
         $struct->name = $name;
         $struct->interface = $interface;
