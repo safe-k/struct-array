@@ -1,5 +1,4 @@
 ![](https://github.com/safe-k/struct-array/workflows/Test/badge.svg)
-![GitHub license](https://img.shields.io/github/license/safe-k/struct-array)
 
 # PHP Structured Arrays
 
@@ -15,6 +14,12 @@ code, whilst making things like error messaging and future refactoring more diff
 In cases like this I find myself itching for a Go/Rust like `struct` instead.
 
 See [doc](docs/use-case.md) for a more in depth discussion.
+
+## Installation
+
+```shell script
+composer require safe-k/struct-array
+```
 
 ## Usage
 
