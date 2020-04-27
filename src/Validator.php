@@ -24,26 +24,31 @@ class Validator
                 $value = array_key_exists($field, $data)
                     ? $data[$field]
                     : Missing::property($field);
-                $valueIsMissing = is_a($value, Missing::class);
+                $propertyIsMissing = is_a($value, Missing::class);
 
                 if (is_callable($validator)) {
                     if (!$validator($value)) {
                         throw new Exception\InvalidValueException($field);
                     }
                     // If value has changed, set corresponding data field
-                    if ($valueIsMissing && !is_a($value, Missing::class)) {
+                    if ($propertyIsMissing && !is_a($value, Missing::class)) {
                         $data[$field] = $value;
                     }
-                } elseif (is_a($validator, Struct::class)) {
-                    if ($valueIsMissing) {
-                        throw new Exception\MissingPropertyException($field);
-                    }
+                    return true;
+                }
+
+                if ($propertyIsMissing) {
+                    throw new Exception\MissingPropertyException($field);
+                }
+
+                if (is_a($validator, Struct::class)) {
                     if (!validate($value, $validator)) {
                         throw new Exception\InvalidValueException($field);
                     }
-                } else {
-                    throw new Exception\InvalidValidatorException($validator);
+                    return true;
                 }
+
+                throw new Exception\InvalidValidatorException($validator);
             }
         } catch (\Throwable $t) {
             /**
