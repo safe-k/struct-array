@@ -61,7 +61,7 @@ $directory = [
 try {
     validate($directory, struct('Directory', [
          'path' => 'is_dir',
-         'file' => optional('is_file', __DIR__ . '/directory-validation.php'),
+         'file' => optional('is_file', __DIR__ . '/README.md'),
          'content' => arrayOf(struct('Paragraph', [
              'header' => 'is_string',
              'line' => not('is_null'),
@@ -75,8 +75,8 @@ try {
 echo "Path: {$directory['path']}" . PHP_EOL;
 echo "File: {$directory['file']}" . PHP_EOL;
 // Prints:
-// Path: /Users/seifkamal/src/struct-array/examples
-// File: /Users/seifkamal/src/struct-array/examples/directory-validation.php
+// Path: /Users/seifkamal/src/struct-array
+// File: /Users/seifkamal/src/struct-array/README.md
 ```
 
 Here's the same one using static class methods:
@@ -105,7 +105,7 @@ $paragraphStruct = Struct::of('Paragraph', [
 ]);
 $directoryStruct = Struct::of('Directory', [
      'path' => 'is_dir',
-     'file' => Type::optional('is_file', __DIR__ . '/directory-validation.php'),
+     'file' => Type::optional('is_file', __DIR__ . '/README.md'),
      'content' => Type::arrayOf($paragraphStruct),
 ]);
 
@@ -119,8 +119,8 @@ try {
 echo "Path: {$directory['path']}" . PHP_EOL;
 echo "File: {$directory['file']}" . PHP_EOL;
 // Prints:
-// Path: /Users/seifkamal/src/struct-array/examples
-// File: /Users/seifkamal/src/struct-array/examples/directory-validation.php
+// Path: /Users/seifkamal/src/struct-array
+// File: /Users/seifkamal/src/struct-array/README.md
 ```
 
 For more, see the [examples directory](examples).
