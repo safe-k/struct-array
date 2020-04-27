@@ -6,7 +6,7 @@ use SK\StructArray\Struct;
 
 class StructValidationException extends \Exception
 {
-    public function __construct(Struct $struct, \Exception $reason)
+    public function __construct(Struct $struct, \Throwable $reason)
     {
         parent::__construct(
             "Struct '{$struct->name()}' failed validation: {$reason->getMessage()}",
