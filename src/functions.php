@@ -6,7 +6,7 @@ use SK\StructArray\Property\Missing;
 use SK\StructArray\Property\Type;
 
 /**
- * @see Type::allOf
+ * @see Type::allOf()
  *
  * @param callable[] $validators
  * @return callable
@@ -17,7 +17,7 @@ function allOf(callable ...$validators): callable
 }
 
 /**
- * @see Type::anyOf
+ * @see Type::anyOf()
  *
  * @param callable|Struct ...$validators
  * @return callable
@@ -28,7 +28,7 @@ function anyOf(...$validators): callable
 }
 
 /**
- * @see Type::arrayOf
+ * @see Type::arrayOf()
  *
  * @param callable|Struct $validator
  * @return callable
@@ -39,7 +39,7 @@ function arrayOf($validator): callable
 }
 
 /**
- * @see Type::classOf
+ * @see Type::classOf()
  *
  * @param string $type
  * @return callable
@@ -50,7 +50,7 @@ function classOf(string $type): callable
 }
 
 /**
- * @see Type::not
+ * @see Type::not()
  *
  * @param callable $validator
  * @return callable
@@ -61,7 +61,7 @@ function not(callable $validator): callable
 }
 
 /**
- * @see Type::optional
+ * @see Type::optional()
  *
  * @param callable $validator
  * @param string $default
@@ -73,7 +73,7 @@ function optional(callable $validator, $default = Missing::class): callable
 }
 
 /**
- * @see Struct::of
+ * @see Struct::of()
  *
  * @param string $name
  * @param callable|Struct[] $interface
@@ -86,7 +86,7 @@ function struct(string $name, array $interface, bool $exhaustive = true): Struct
 }
 
 /**
- * @see Validator::validate
+ * @see Validator::validate()
  *
  * @param array $data
  * @param Struct $struct

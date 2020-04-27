@@ -10,14 +10,14 @@ optional, and returns aggregated statistics.
 
 ## Scenario
 
-Let's say your controller endpoint expects a `$filterParams` array with:
+Let's say your controller endpoint expects a `$filterParams` array containing some event data:
 
 - `name string`
+- `category string` (one of 'theatre', 'concert', or 'sport')
 - `date DateTime` (optional - defaults today's date)
 - `priceRange array`
   - `from float`
   - `to float`
-- `tags array<string>` (optional - defaults to empty array)
 
 ```php
 <?php
@@ -49,6 +49,12 @@ class StatsController {
             throw new InvalidArgumentException("'name' param must be string");
         }
 
+        // Validate `category`
+        $categories = ['theatre', 'concert', 'sport'];
+        if (!isset($filterParams['category']) || !in_array($filterParams['category'], $categories)) {
+            throw new InvalidArgumentException("'category' param must be one of: " . implode(', ', $categories));
+        }
+
         // Validate `date`
         if (!!isset($filterParams['date'])) {
             $filterParams['date'] =  new DateTime();
@@ -65,15 +71,6 @@ class StatsController {
         }
         if (!isset($filterParams['priceRange']['to']) || !is_float($filterParams['priceRange']['to'])) {
             throw new InvalidArgumentException("Price range 'to' param must be a float");
-        }
-
-        // Validate `tags`
-        if (!array_key_exists('tags', $filterParams)) {
-            $filterParams['tags'] = [];
-        } elseif (!is_array($filterParams['tags'])) {
-            throw new InvalidArgumentException("'tags' param must be an array of strings");
-        } else {
-            $filterParams['tags'] = array_filter($filterParams['tags'], 'is_string');
         }
 
         return DB::action($filterParams);
@@ -117,36 +114,41 @@ class Price {
     // + necessary accessors
 }
 
-// Filter.php
-class Filter {
+// Event.php
+class Event {
+    const CATEGORIES = ['theatre', 'concert', 'sport'];
+
     /** @var string */
     private $name;
+    /** @var string */
+    private $category;
     /** @var DateTime */
     private $date;
     /** @var Price */
     private $priceRange;
-    /** @var string[] */
-    private $tags;
 
     public function __construct(
         string $name,
+        string $category,
         DateTime $date,
-        Price $priceRange,
-        array $tags
+        Price $priceRange
     ) {
         $this->name = $name;
+        if (!in_array($category, self::CATEGORIES)) {
+            throw new InvalidArgumentException("'category' param must be one of: " . implode(', ', self::CATEGORIES);
+        }
+        $this->category = $category;
         $this->date = $date;
         $this->priceRange = $priceRange;
-        $this->tags = array_filter($tags, 'is_string');
     }
 
     public static function from(array $params): self
     {
         return new static(
             $params['name'],
+            $params['category'],
             $params['date'] ?? new DateTime(),
-            new Price($params['priceRange']['from'], $params['priceRange']['to']),
-            $params['tags'] ?? []
+            new Price($params['priceRange']['from'], $params['priceRange']['to'])
         );
     }
 
@@ -162,7 +164,7 @@ class Filter {
 class StatsController {
     public function index(array $filterParams)
     {
-        return DB::action(Filter::from($filterParams)->toArray());
+        return DB::action(Event::from($filterParams)->toArray());
     }
 }
 ```
@@ -183,22 +185,24 @@ required, and may even have an impact on performance
 ```php
 <?php
 
+// StatsController.php
 use function \SK\StructArray\{
-    arrayOf, classOf, optional, struct, validate
+    classOf, optional, struct, validate
 };
 
-// StatsController.php
 class StatsController {
     public function index(array $filterParams)
     {
-        validate($filterParams, struct('Filter', [
+        validate($filterParams, struct('Event', [
             'name' => 'is_string',
+            'category' => function (string $value): bool {
+                return in_array($value, ['theatre', 'concert', 'sport']);
+            },
             'date' => optional(classOf(DateTime::class), new DateTime()),
             'priceRange' => struct('Price', [
                 'from' => 'is_float',
                 'to' => 'is_float',
             ]),
-            'tags' => arrayOf('is_string'),
         ]));
 
         return DB::action($filterParams);
@@ -209,11 +213,11 @@ class StatsController {
 **Pros:**
 - Easy to read
 - Easy to scale
-- Automatic, meaningful error messaging; Here's an example:
-> Struct 'Filter' failed validation: Invalid value for property 'date'
+- Automatic, customisable error messaging; Here's an example:
+> Struct 'Event' failed validation: Invalid value for property 'date'
 - All possible parameters and their validation rules are documented in code, in the method itself
-- Extensible - `Struct`s use `callable`s (and other `Struct`s) for validation, so it can easily be
-worked into an existing system or customised accordingly
+- Extensible - `Struct`s are essentially arrays of `callable`s (and other `Struct`s), so they can
+easily be worked into systems and be extended accordingly
 
 **Cons:**
 - ???

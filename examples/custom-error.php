@@ -9,14 +9,18 @@ use function SK\StructArray\{struct, validate};
 
 $message = [
     'subject' => 'Greetings',
-    'body' => 'hi',
+    'body' => 'yo',
 ];
 
 try {
     validate($message, struct('Message', [
         'subject' => 'is_string',
         'body' => function ($value): bool {
-            return in_array($value, ['hello', 'hi', 'hey']);
+            $greetings = ['hello', 'hi', 'hey'];
+            if (!in_array($value, $greetings)) {
+                throw new InvalidArgumentException('Greeting body must be one of: ' . implode(', ', $greetings));
+            }
+            return true;
         },
     ]));
 } catch (StructValidationException $e) {

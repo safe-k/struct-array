@@ -6,12 +6,12 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use SK\StructArray\Exception\StructValidationException;
 
 use function SK\StructArray\{
-    allOf, anyOf, arrayOf, classOf, not, struct, validate
+    allOf, anyOf, arrayOf, classOf, not, optional, struct, validate
 };
 
 $eventStruct = struct('Event', [
     'id' => allOf('is_string', 'is_numeric'),
-    'type' => 'is_string',
+    'type' => optional('is_string', 'general'),
     'date' => anyOf(classOf(DateTime::class), 'is_null'),
     'priceFrom' => 'is_float',
     'tickets' => arrayOf(not('is_null')),
@@ -53,7 +53,6 @@ $events = [
     ],
     [
         'id' => '123',
-        'type' => null,
         'date' => new DateTime(),
         'priceFrom' => 20.5,
         'tickets' => ['General', null],

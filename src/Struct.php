@@ -16,7 +16,9 @@ class Struct
      *
      * @param string $name
      * @param callable|Struct[] $interface
-     * @param bool $exhaustive
+     * @param bool $exhaustive Used to specify whether the declared Struct properties are exhaustive,
+     * meaning data arrays submitted for validation must not contain unknown keys. This defaults
+     * to `true`; Set to `false` if you only want to validate some of the array elements.
      * @return Struct
      */
     public static function of(string $name, array $interface, bool $exhaustive = true): self

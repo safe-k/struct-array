@@ -8,12 +8,8 @@ use SK\StructArray\Struct;
 use function SK\StructArray\validate;
 
 /**
- * Class Type
- *
  * Contains static methods that return validator functions; Each said function
  * takes in a $value parameter, validates it, and returns a boolean value.
- *
- * @package SK\StructArray\Property
  */
 class Type
 {
