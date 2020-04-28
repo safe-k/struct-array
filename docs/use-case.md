@@ -214,7 +214,7 @@ class StatsController {
 - Easy to read
 - Easy to scale
 - Automatic, customisable error messaging; Here's an example:
-> Struct 'Event' failed validation: Invalid value for property 'date'
+> Event failed validation. Invalid value for property: 'date'
 - All possible parameters and their validation rules are documented in code, in the method itself
 - Extensible - `Struct`s are essentially arrays of `callable`s (and other `Struct`s), so they can
 easily be worked into systems and be extended accordingly

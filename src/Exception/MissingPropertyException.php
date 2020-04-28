@@ -6,6 +6,6 @@ class MissingPropertyException extends \Exception
 {
     public function __construct(string $property)
     {
-        parent::__construct("missing value for '{$property}'");
+        parent::__construct("Missing value for property: '{$property}'");
     }
 }
