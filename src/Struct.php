@@ -33,6 +33,17 @@ class Struct
         return $struct;
     }
 
+    /**
+     * @internal
+     *
+     * @param array $interface
+     * @return static
+     */
+    public static function default(array $interface): self
+    {
+        return static::of('Struct', $interface, false);
+    }
+
     public function name(): string
     {
         return $this->name;

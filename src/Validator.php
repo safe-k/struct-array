@@ -8,13 +8,17 @@ class Validator
 {
     /**
      * @param array $data
-     * @param Struct $struct
+     * @param array|Struct $struct If an array is supplied, a generic, non-exhaustive Struct is used.
      * @return bool
      * @throws Exception\StructValidationException
      */
-    public static function validate(array &$data, Struct $struct): bool
+    public static function validate(array &$data, $struct): bool
     {
         try {
+            if (is_array($struct)) {
+                $struct = Struct::default($struct);
+            }
+
             $unexpectedProperties = array_diff_key($data, $struct->interface());
             if ($struct->isExhaustive() && !empty($unexpectedProperties)) {
                 throw new Exception\UnexpectedPropertyException(...array_keys($unexpectedProperties));
@@ -41,6 +45,9 @@ class Validator
                     throw new Exception\MissingPropertyException($field);
                 }
 
+                if (is_array($validator)) {
+                    $validator = Struct::default($validator);
+                }
                 if (is_a($validator, Struct::class)) {
                     if (!validate($value, $validator)) {
                         throw new Exception\InvalidValueException($field);

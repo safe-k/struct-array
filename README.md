@@ -79,7 +79,36 @@ echo "File: {$directory['file']}" . PHP_EOL;
 // File: /Users/seifkamal/src/struct-array/README.md
 ```
 
-Here's the same one using static class methods:
+You can also just use an array directly, without creating a `Struct`:
+
+```php
+<?php
+
+use function SK\StructArray\{
+    arrayOf, optional, not, validate
+};
+
+$directory = [...];
+
+validate($directory, [
+    'path' => 'is_dir',
+    'file' => optional('is_file', __DIR__ . '/README.md'),
+    'content' => arrayOf([
+        'header' => 'is_string',
+        'line' => not('is_null'),
+    ]),
+]);
+```
+
+This is tailored for quick usage, and therefore assumes the defined interface is non-exhaustive
+(ie. the array submitted for validation is allowed to have keys that aren't defined here). It also
+means error messages will be more generic, ie you'll see:
+> Struct failed validation. ...
+
+instead of:
+> Directory failed validation. ...
+
+Here's another example directly using the static class methods:
 
 ```php
 <?php
