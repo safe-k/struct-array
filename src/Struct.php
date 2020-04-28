@@ -6,7 +6,7 @@ class Struct
 {
     /** @var string */
     private $name;
-    /** @var callable|Struct[] */
+    /** @var callable[]|Struct[] */
     private $interface;
     /** @var bool */
     private $exhaustive;
@@ -14,8 +14,8 @@ class Struct
     /**
      * Struct constructor.
      *
-     * @param string $name
-     * @param callable|Struct[] $interface
+     * @param string $name Used in error messaging, useful when nesting or validating multiple Structs.
+     * @param callable[]|Struct[] $interface A list of expected keys and their associated validator.
      * @param bool $exhaustive Used to specify whether the declared Struct properties are exhaustive,
      * meaning data arrays submitted for validation must not contain unknown keys. This defaults
      * to `true`; Set to `false` if you only want to validate some of the array elements.
@@ -39,7 +39,7 @@ class Struct
     }
 
     /**
-     * @return callable|Struct[]
+     * @return callable[]|Struct[]
      */
     public function interface(): array
     {

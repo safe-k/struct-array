@@ -75,9 +75,11 @@ function optional(callable $validator, $default = Missing::class): callable
 /**
  * @see Struct::of()
  *
- * @param string $name
- * @param callable|Struct[] $interface
- * @param bool $exhaustive
+ * @param string $name Used in error messaging, useful when nesting or validating multiple Structs.
+ * @param callable[]|Struct[] $interface A list of expected keys and their associated validator.
+ * @param bool $exhaustive Used to specify whether the declared Struct properties are exhaustive,
+ * meaning data arrays submitted for validation must not contain unknown keys. This defaults
+ * to `true`; Set to `false` if you only want to validate some of the array elements.
  * @return Struct
  */
 function struct(string $name, array $interface, bool $exhaustive = true): Struct
