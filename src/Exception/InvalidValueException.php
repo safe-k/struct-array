@@ -6,6 +6,6 @@ class InvalidValueException extends \Exception
 {
     public function __construct(string $property)
     {
-        parent::__construct("Invalid value for property '{$property}'");
+        parent::__construct("Invalid value for property: '{$property}'");
     }
 }
