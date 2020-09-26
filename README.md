@@ -1,4 +1,4 @@
-![](https://github.com/safe-k/struct-array/workflows/Test/badge.svg)
+![](https://github.com/seifkamal/struct-array/workflows/Test/badge.svg)
 
 # PHP Structured Arrays
 
@@ -18,7 +18,7 @@ See [doc](docs/use-case.md) for a more in depth discussion.
 ## Installation
 
 ```shell script
-composer require safe-k/struct-array
+composer require seifkamal/struct-array
 ```
 
 ## Usage
